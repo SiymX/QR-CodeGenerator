@@ -1,7 +1,7 @@
+
+![qrgenGIT](https://github.com/SiymX/QR-CodeGenerator/assets/63435885/96c298e2-ef86-49c2-8f62-cfcc70683693)
+
 # QR-CodeGenerator
-
-![qrimage](https://github.com/SiymX/QR-CodeGenerator/assets/63435885/a9f16cdc-7cf7-4d48-882b-2da0800c27d3)
-
 This Program is a Python-based QR Code Generator which does not rely on the `import qrcode` library but uses the QR Server API via the `requests` library to send the request and retrieve the QR Code Data. It allows users to create a QR Code based on the provided URL from the user-friendly Graphical User Interface (GUI) via the `Tkinter` library and the `PIL` library for Image Manipulation.
 
 
