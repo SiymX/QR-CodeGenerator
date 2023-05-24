@@ -1,24 +1,38 @@
 import base64
 import tkinter as tk
 import tkinter.messagebox as messagebox
-from PIL import Image, ImageTk
 import requests
+from PIL import Image, ImageTk
 from io import BytesIO
+from tkinter import filedialog
+
+qr_code_with_logo = None
 
 
 def generate_qr_code(event=None):
+    global qr_code_with_logo
     url = entry.get()
     if url:
         qr_code = create_qr_code(url)
         qr_code_with_logo = add_logo(qr_code)
         show_qr_code(qr_code_with_logo)
+        save_button.grid(row=5, pady=10)
     else:
         messagebox.showwarning("Error", "Please enter a URL.")
+
+
+def save_qr_code():
+    global qr_code_with_logo
+    if qr_code_with_logo is not None:
+        file_path = filedialog.asksaveasfilename(defaultextension=".png")
+        if file_path:
+            qr_code_with_logo.save(file_path)
 
 
 def create_qr_code(url):
     api_url = f"https://api.qrserver.com/v1/create-qr-code/?size=300x300&ecc=H&data={url}"
     response = requests.get(api_url)
+    global qr_code_with_logo
     qr_code = Image.open(BytesIO(response.content))
     return qr_code
 
@@ -101,6 +115,11 @@ entry.bind('<Return>', generate_qr_code)
 generate_button = tk.Button(center_frame, text="Generate QR Code", command=generate_qr_code, fg="#4CA1AF",
                             font=('Arial', 10))
 generate_button.grid(row=3, pady=10)
+
+save_button = tk.Button(center_frame, text="Save QR Code", command=save_qr_code, fg="#4CA1AF",
+                        font=('Arial', 10))
+save_button.grid(row=5, pady=10)
+save_button.grid_remove()
 
 qr_code_label = tk.Label(center_frame, bg="white")
 qr_code_label.grid(row=4, pady=10)
